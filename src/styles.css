@@ -5,32 +5,79 @@
 
 .App {
   font-family: sans-serif;
-  text-align: center;
-  width: 60%;
-  margin: 0 auto;
+   
+    width: 20%;
+    margin: 0 auto;
+    background: cornflowerblue;
+    padding: 20px;
+    margin: 20px auto;
 }
 
+form{margin-top:30px;}
+
+label{
+  font-weight: bold;
+}
 textarea,
 input {
   display: block;
   margin: 10px 0;
   padding: 10px;
+  width:90%;
+  font-size:18px;
 }
 
 button {
   width: 100%;
-  padding: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    background: floralwhite;
+    font-weight: bold;
+    font-size: 24px;
+    text-transform: uppercase;
+    border-radius: 5px;
 }
 
 .event-details {
-  border: 2px solid #333;
+  border: 1px solid #333;
   padding: 10px;
   margin-top: 30px;
+  background:#fff;
+}
+
+.event-details h3  {
+  text-align:center;
+  margin:10px 0;
+  color:rgb(27, 27, 58);
 }
 
 .event-details h2 {
   margin-bottom: 10px;
   text-decoration: none;
+  font-size:20px;
+  text-transform: uppercase;
+  
+}
+.event-details h2 + p{
+  font-size:12px;
+}
+.event-details p span{
+  
+  background:yellow
+}
+
+.event-details p + p{
+  margin-top:10px;
+}
+
+
+.event-details ul{
+  margin-left: 20px;
+}
+
+.event-details ul li{
+  border-bottom: 1px dotted #ccc;
+  padding: 10px 0;
 }
 
 .resetLink {
