@@ -14,6 +14,18 @@ Event scheduler is an app to schedule/create your events
 
 Event Scheduler is developed using React 16 and Redux. Redux is used to maintain the list of the events.
 
+# Screenshots
+
+(https://github.com/Neha/create-event-scheduler/blob/master/public/images/form.png)
+
+(https://github.com/Neha/create-event-scheduler/blob/master/public/images/List.png)
+
+# How to use?
+
+1. Download or clone the repo
+2. Run : npm install
+3. Run : npm run start
+
 # To-Do
 
 1. Validations error
