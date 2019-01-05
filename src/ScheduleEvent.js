@@ -2,13 +2,21 @@ import React, { Component } from "react";
 import EventDetail from "../src/EventDetails";
 import updateEventList from "./actions/updateEventList";
 import { connect } from "react-redux";
+import {
+  eventNameError,
+  eventDateError,
+  eventTimeError,
+  eventDetailsError,
+  wordCount
+} from "../src/constant";
+import Constant from "../src/constant";
 
 class ScheduleEvent extends Component {
   constructor() {
     super();
     this.state = {
       flag: false,
-      totalCharCount: 200,
+      totalCharCount: wordCount,
       charLeft: 0,
       display: "hidden",
       displayCharError: "hidden",
@@ -72,16 +80,16 @@ class ScheduleEvent extends Component {
       );
     } else {
       if (this.state.data.eventName == "") {
-        this.state.formErrors["eventName"] = "Name cant be blank";
+        this.state.formErrors["eventName"] = eventNameError;
       }
       if (this.state.data.eventDate == "") {
-        this.state.formErrors["eventDate"] = "Date cant be blank";
+        this.state.formErrors["eventDate"] = eventDateError;
       }
       if (this.state.data.eventTime == "") {
-        this.state.formErrors["eventTime"] = "Time cant be blank";
+        this.state.formErrors["eventTime"] = eventTimeError;
       }
       if (this.state.data.eventDetail == "") {
-        this.state.formErrors["eventDetail"] = "Details cant be blank";
+        this.state.formErrors["eventDetail"] = eventDetailsError;
       }
       let newFormErrors = { ...this.state.formErrors };
       this.setState({
@@ -103,22 +111,34 @@ class ScheduleEvent extends Component {
     });
   };
   render() {
+    const {
+      eventName,
+      eventDate,
+      eventTime,
+      eventDetails,
+      eventNameError,
+      eventDateError,
+      eventTimeError,
+      eventDetailsError,
+      wordsLimitError,
+      submit
+    } = Constant;
     return (
       <div>
         {!this.state.flag && (
           <form>
-            <label>Event Name</label>
+            <label>{eventName}</label>
             <input
               type="text"
               name="eventName"
-              placeholder="Enter Event Name"
+              placeholder={eventName}
               value={this.state.data.eventName}
               onChange={e => {
                 this.handleChange(e);
               }}
             />
-            <div className={this.state.display}>Name can't be blank</div>
-            <label>Event Date</label>
+            <div className={this.state.display}>{eventNameError}</div>
+            <label>{eventDate}</label>
             <input
               type="date"
               name="eventDate"
@@ -127,8 +147,8 @@ class ScheduleEvent extends Component {
                 this.handleChange(e);
               }}
             />
-            <div className={this.state.display}>Pick the right date</div>
-            <label>Event Time</label>
+            <div className={this.state.display}>{eventDateError}</div>
+            <label>{eventTime}</label>
             <input
               type="time"
               name="eventTime"
@@ -137,8 +157,8 @@ class ScheduleEvent extends Component {
                 this.handleChange(e);
               }}
             />
-            <div className={this.state.display}>Pick the right time</div>
-            <label>Event Details</label>
+            <div className={this.state.display}>{eventTimeError}</div>
+            <label>{eventDetails}</label>
             <textarea
               name="eventDetail"
               placeholder="enter details"
@@ -150,19 +170,17 @@ class ScheduleEvent extends Component {
                 this.handlePress(e);
               }}
             />
-            <div className={this.state.display}>Details can't be blank</div>
+            <div className={this.state.display}>{eventDetailsError}</div>
             <p>
               {this.state.charLeft} / {this.state.totalCharCount}
             </p>
-            <div className={this.state.displayCharError}>
-              You have crossed the limit
-            </div>
+            <div className={this.state.displayCharError}>{wordsLimitError}</div>
             <button
               onClick={e => {
                 this.onSubmit(e);
               }}
             >
-              Submit
+              {submit}
             </button>
           </form>
         )}
