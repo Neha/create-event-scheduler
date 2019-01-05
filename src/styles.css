@@ -86,3 +86,13 @@ button {
   margin-top: 40px;
   text-decoration: underline;
 }
+
+.hidden{
+  display:none;
+}
+
+.show{
+  display: show;
+  color: red;
+  margin-bottom:4px;
+}
