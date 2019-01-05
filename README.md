@@ -4,11 +4,12 @@
 
 Event scheduler is an app to schedule/create your events
 
-1. Title of the event.
-2. Date of the event.
-3. Time of the event.
-4. Description of the event.
-5. Create the event.
+1. Login window
+2. Title of the event.
+3. Date of the event.
+4. Time of the event.
+5. Description of the event.
+6. Create the event.
 
 # Tech Stack
 
@@ -28,7 +29,9 @@ Event Scheduler is developed using React 16 and Redux. Redux is used to maintain
 
 # To-Do
 
-1. Validations error
-2. Formtaing of the description content
+1. User Login authentication
+2. Better UI
+3. CRUD operations on Events
+4. Validations on date and time
 
 ### Mail to nsharma215@gmail.com
