@@ -1,10 +1,23 @@
-import React, { Component } from "react";
+//@flow
+
+import * as React from "react";
+import { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Constant from "../src/constant";
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
+type Props = {
+  history: Object
+};
+
+type State = {
+  userName: string,
+  password: string,
+  displayError: string
+};
+
+class Login extends Component<Props, State> {
+  constructor() {
+    super();
     this.state = {
       userName: "",
       password: "",
@@ -12,13 +25,13 @@ class Login extends Component {
     };
   }
 
-  onHandleChange = e => {
+  onHandleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.currentTarget.name]: e.currentTarget.value
     });
   };
 
-  validateCredintials = e => {
+  validateCredintials = (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (this.state.userName == "test" && this.state.password == "test") {
       this.props.history.push("/ScheduleEvent");
