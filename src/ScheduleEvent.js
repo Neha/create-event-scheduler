@@ -1,4 +1,7 @@
-import React, { Component } from "react";
+//@flow
+
+import * as React from "react";
+import { Component } from "react";
 import EventDetail from "../src/EventDetails";
 import updateEventList from "./actions/updateEventList";
 import { connect } from "react-redux";
@@ -10,6 +13,12 @@ import {
   wordCount
 } from "../src/constant";
 import Constant from "../src/constant";
+
+type Props = {};
+
+type State = {
+  totalCharCount: number
+};
 
 class ScheduleEvent extends Component {
   constructor() {
