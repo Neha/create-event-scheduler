@@ -14,7 +14,10 @@ const Constant = {
   eventDateError: "Date cant be blank",
   eventTimeError: "Time cant be blank",
   eventDetailsError: "Details cant be blank",
-  wordsLimitError: "You have crossed the 200 words limit"
+  wordsLimitError: "You have crossed the 200 words limit",
+  pastDateError: "You can not Select Past Date",
+  sameDayError: "You can not Select Same Day",
+  commanError: "*Above fields can not be blanked",
 };
 
 export default Constant;

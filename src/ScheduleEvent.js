@@ -10,9 +10,10 @@ import {
   eventDateError,
   eventTimeError,
   eventDetailsError,
-  wordCount
+  wordCount,
 } from "../src/constant";
 import Constant from "../src/constant";
+const {pastDateError, sameDayError, commanError} = Constant;
 
 type Props = {};
 
@@ -27,14 +28,14 @@ class ScheduleEvent extends Component {
       flag: false,
       totalCharCount: wordCount,
       charLeft: 0,
-      display: "hidden",
+      display: "show",
       displayCharError: "hidden",
-      formErrors: {
-        eventName: "",
-        eventDetail: "",
-        eventDate: "",
-        eventTime: ""
-      },
+      nameError: "",
+      detailError: "",
+      dateError: "",
+      timeError: "",
+      commanErrorMessage: commanError,
+      submitButtonIntialStatus: true, 
       data: {
         eventName: "",
         eventDetail: "",
@@ -63,12 +64,130 @@ class ScheduleEvent extends Component {
     let newdata = { ...this.state.data };
     if (e.target.value !== "" || e.target.value !== undefined) {
       newdata[e.target.name] = e.target.value;
+      if (e.target.name == "eventName") {
+        this.setState({
+          nameError : "",
+          data: newdata,
+          commanErrorMessage : "",
+        });
+      }
+      else if (e.target.name == "eventDate") {
+        this.setState({
+          dateError : "",
+          data: newdata,
+          commanErrorMessage : "",
+        });
+      }
+      else if (e.target.name == "eventTime") {
+        this.setState({
+          timeError : "",
+          data: newdata,
+          commanErrorMessage : "",
+        });
+      }
+      else if (e.target.name == "eventDetail") {
+        let newDetailLength = e.target.value.length;
+        if (newDetailLength > this.state.totalCharCount) {
+          e.preventDefault();
+          this.setState({
+            displayCharError: "show",
+            charLeft: newDetailLength,
+            detailError : "",
+            data: newdata,
+          commanErrorMessage : "",
+          });
+        }
+        else{
+          this.setState({
+            data: newdata,
+            charLeft: newDetailLength,
+            displayCharError: "hidden",
+            detailError : "",
+            commanErrorMessage : "",
+          });
+        }
+      }
+    }
+  };
 
+  dateValidator = date =>{
+    let dateObj = new Date(date);
+    let year = dateObj.getFullYear();
+    let month = dateObj.getMonth();
+    let day = dateObj.getDate();
+    let currentDate = new Date();
+    if(currentDate.getFullYear()>year){
+      return pastDateError;
+    }
+    else if(currentDate.getFullYear()==year){
+      if(currentDate.getMonth()>month){
+        return pastDateError;
+      }
+      else if(currentDate.getMonth()==month){
+        if(currentDate.getDate()>day){
+          return pastDateError;
+        }
+        else if(currentDate.getDate()==day){
+          return sameDayError;
+        }
+        else{
+          return "";
+        }
+      }
+      return "";
+    }
+    return ""
+  }
+
+  handleOnblur = e => {
+    if (e.target.value === "" || e.target.value === undefined) {
+      if (e.target.name == "eventName") {
+        this.setState({
+          nameError : eventNameError,
+          submitButtonIntialStatus : false,
+        });
+      }
+      else if (e.target.name == "eventDate") {
+        this.setState({
+          dateError : eventDateError,
+          submitButtonIntialStatus : false,
+        });
+      }
+      else if (e.target.name == "eventTime") {
+        this.setState({
+          timeError : eventTimeError,
+          submitButtonIntialStatus : false,
+        });
+      }
+      else if (e.target.name == "eventDetail") {
+        this.setState({
+          detailError : eventDetailsError,
+          submitButtonIntialStatus : false,
+        });
+      } 
+    }
+    else if(e.target.name == "eventDate"){
+      let errorMessage = this.dateValidator(e.target.value)
       this.setState({
-        data: newdata
+        dateError : errorMessage,
+        submitButtonIntialStatus : false,
       });
     }
   };
+
+  getSubmibuttonStatus = () =>{
+    const {nameError,detailError,dateError,timeError,commanErrorMessage} = this.state;
+    const {eventDate,eventDetail,eventName,eventTime} = this.state.data
+    
+    console.log("ifooooo",this.state)
+    if(nameError || detailError || dateError || timeError  || !eventDate || !eventDetail || !eventName || !eventTime){
+     return true;
+    }
+    return false;
+    
+
+      
+  }
 
   onSubmit = e => {
     e.preventDefault();
@@ -125,13 +244,10 @@ class ScheduleEvent extends Component {
       eventDate,
       eventTime,
       eventDetails,
-      eventNameError,
-      eventDateError,
-      eventTimeError,
-      eventDetailsError,
       wordsLimitError,
       submit
     } = Constant;
+    const {nameError,detailError,dateError,timeError, submitButtonIntialStatus, commanErrorMessage} = this.state;
     return (
       <div>
         {!this.state.flag && (
@@ -145,8 +261,11 @@ class ScheduleEvent extends Component {
               onChange={e => {
                 this.handleChange(e);
               }}
+              onBlur = {e => {
+                this.handleOnblur(e);
+              }}
             />
-            <div className={this.state.display}>{eventNameError}</div>
+            <div className={this.state.display}>{nameError}</div>
             <label>{eventDate}</label>
             <input
               type="date"
@@ -155,8 +274,11 @@ class ScheduleEvent extends Component {
               onChange={e => {
                 this.handleChange(e);
               }}
+              onBlur = {e => {
+                this.handleOnblur(e);
+              }}
             />
-            <div className={this.state.display}>{eventDateError}</div>
+            <div className={this.state.display}>{dateError}</div>
             <label>{eventTime}</label>
             <input
               type="time"
@@ -165,8 +287,11 @@ class ScheduleEvent extends Component {
               onChange={e => {
                 this.handleChange(e);
               }}
+              onBlur = {e => {
+                this.handleOnblur(e);
+              }}
             />
-            <div className={this.state.display}>{eventTimeError}</div>
+           <div className={this.state.display}>{timeError}</div>
             <label>{eventDetails}</label>
             <textarea
               name="eventDetail"
@@ -175,19 +300,24 @@ class ScheduleEvent extends Component {
               onChange={e => {
                 this.handleChange(e);
               }}
-              onKeyPress={e => {
-                this.handlePress(e);
+              // onKeyPress={e => {
+              //   this.handlePress(e);
+              // }}
+              onBlur = {e => {
+                this.handleOnblur(e);
               }}
             />
-            <div className={this.state.display}>{eventDetailsError}</div>
+            <div className={this.state.display}>{detailError}</div>
             <p>
               {this.state.charLeft} / {this.state.totalCharCount}
             </p>
             <div className={this.state.displayCharError}>{wordsLimitError}</div>
+            <div className="show">{commanErrorMessage}</div>
             <button
               onClick={e => {
                 this.onSubmit(e);
               }}
+              disabled = {submitButtonIntialStatus||this.getSubmibuttonStatus()}
             >
               {submit}
             </button>
