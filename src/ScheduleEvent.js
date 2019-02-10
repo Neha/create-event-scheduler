@@ -179,7 +179,6 @@ class ScheduleEvent extends Component {
     const {nameError,detailError,dateError,timeError,commanErrorMessage} = this.state;
     const {eventDate,eventDetail,eventName,eventTime} = this.state.data
     
-    console.log("ifooooo",this.state)
     if(nameError || detailError || dateError || timeError  || !eventDate || !eventDetail || !eventName || !eventTime){
      return true;
     }
